@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="box">
+  <xacro:macro name="box" params="prefix parent *origin mass size_x size_y size_z color_r color_g color_b color_a">
+    
+    <joint name="${prefix}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+    
+    <link name="${prefix}_link">
+      <visual>
+        <geometry>
+          <box size="${size_x} ${size_y} ${size_z}"/>
+        </geometry>
+        <material name="${prefix}_color">
+          <color rgba="${color_r} ${color_g} ${color_b} ${color_a}"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${size_x} ${size_y} ${size_z}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia 
+          ixx="${mass * (size_y*size_y + size_z*size_z) / 12.0}" 
+          ixy="0.0" 
+          ixz="0.0" 
+          iyy="${mass * (size_x*size_x + size_z*size_z) / 12.0}" 
+          iyz="0.0" 
+          izz="${mass * (size_x*size_x + size_y*size_y) / 12.0}"/>
+      </inertial>
+    </link>
+    
+    <gazebo reference="${prefix}_link">
+      <material>Gazebo/Red</material>
+      <mu1>0.5</mu1>
+      <mu2>0.5</mu2>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>

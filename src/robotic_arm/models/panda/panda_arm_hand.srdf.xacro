@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<!--本文件并非用于替代URDF，也不是URDF的扩展
+    这是一种用于表示机器人结构语义信息的格式
+    该机器人必须同时存在URDF文件，其中定义了引用的关节和连杆
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <xacro:include filename="panda_arm.xacro" />
+  <xacro:include filename="hand.xacro" />
+  <xacro:panda_arm />
+  <xacro:hand />
+  <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+  <!--GROUPS: 表示一组关节和连杆的集合，可用于指定规划自由度、定义机械臂和末端执行器等-->
+  <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+  <!--LINKS: 当指定连杆时，其父关节（如存在）会自动包含在内-->
+  <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+  <!--JOINTS: 当指定关节时，其子连杆（必定存在）会自动包含在内-->
+  <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+  <!--CHAINS: 指定运动链时，链上所有连杆（含端点）都会包含在组中，同时所有作为已包含连杆父关节的关节也会被包含，即链上关节和基础连杆的父关节都会加入组中-->
+  <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+  <!--SUBGROUPS: 可通过引用已定义的组名来形成子组-->
+  <group name="panda_arm_hand">
+    <group name="panda_arm" />
+    <group name="hand" />
+  </group>
+
+  <!-- 机械手开合状态定义 -->
+  <group_state name="open" group="hand">
+    <joint name="panda_finger_joint1" value="0.035" />
+    <joint name="panda_finger_joint2" value="0.035" />
+  </group_state>
+  <group_state name="close" group="hand">
+    <joint name="panda_finger_joint1" value="0" />
+    <joint name="panda_finger_joint2" value="0" />
+  </group_state>
+
+  <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+  <!--END EFFECTOR: 目的：表示末端执行器的相关信息-->
+  <end_effector name="hand" parent_link="panda_link8" group="hand" parent_group="panda_arm" />
+
+  <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+  <!--DISABLE COLLISIONS: 默认假设机器人任何连杆都可能相互碰撞，此标签用于禁用指定连杆对之间的碰撞检测-->
+  <disable_collisions link1="panda_hand" link2="panda_link3" reason="Never" />
+  <disable_collisions link1="panda_hand" link2="panda_link4" reason="Never" />
+  <disable_collisions link1="panda_hand" link2="panda_link6" reason="Never" />
+  <disable_collisions link1="panda_hand" link2="panda_link7" reason="Adjacent" />
+  <disable_collisions link1="panda_leftfinger" link2="panda_link3" reason="Never" />
+  <disable_collisions link1="panda_leftfinger" link2="panda_link4" reason="Never" />
+  <disable_collisions link1="panda_leftfinger" link2="panda_link6" reason="Never" />
+  <disable_collisions link1="panda_leftfinger" link2="panda_link7" reason="Never" />
+  <disable_collisions link1="panda_link3" link2="panda_rightfinger" reason="Never" />
+  <disable_collisions link1="panda_link4" link2="panda_rightfinger" reason="Never" />
+  <disable_collisions link1="panda_link6" link2="panda_rightfinger" reason="Never" />
+  <disable_collisions link1="panda_link7" link2="panda_rightfinger" reason="Never" />
+</robot>

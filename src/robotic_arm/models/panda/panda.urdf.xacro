@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+    <!-- 定义初始位置文件的参数，默认为initial_positions.yaml -->
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+    <!-- 定义ROS2控制硬件类型的参数，默认为mock_components(模拟组件) -->
+    <xacro:arg name="ros2_control_hardware_type" default="mock_components" />
+
+    <!-- 导入panda机器人的URDF描述文件 -->
+    <!-- Import panda urdf file -->
+    <!-- <xacro:include filename="$(find moveit_resources_panda_description)/urdf/panda.urdf" /> -->
+    <xacro:include filename="panda.urdf" />
+
+    <!-- 导入ROS2控制相关的描述文件 -->
+    <!-- Import panda ros2_control description -->
+    <xacro:include filename="panda.ros2_control.xacro" />
+    <xacro:include filename="panda_hand.ros2_control.xacro" />
+
+    <!-- 实例化机械臂的ROS2控制系统 -->
+    <!-- Instantiate panda arm ros2_control system -->
+    <xacro:panda_ros2_control 
+        name="PandaFakeSystem" 
+        initial_positions_file="$(arg initial_positions_file)" 
+        ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/>
+    
+    <!-- 实例化机械手的ROS2控制系统 -->
+    <!-- Instantiate panda hand ros2_control system -->
+    <xacro:panda_hand_ros2_control 
+        name="PandaHandFakeSystem" 
+        ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/>
+</robot>

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <xacro:macro name="hand">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--GROUPS: 表示一组关节和连杆的集合，可用于指定规划的自由度、定义机械臂、末端执行器等-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--LINKS: 当指定一个连杆时，该连杆的父关节（如果存在）会自动包含在内-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--JOINTS: 当指定一个关节时，该关节的子连杆（必定存在）会自动包含在内-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--CHAINS: 当指定一个链时，链上所有连杆（包括端点）都会包含在组中。此外，所有作为已包含连杆父关节的关节也会被包含。这意味着链上的关节和基础连杆的父关节都会包含在组中-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <!--SUBGROUPS: 也可以通过引用已定义的组名来形成组-->
+    <group name="hand">
+      <link name="panda_hand" />
+      <link name="panda_leftfinger" />
+      <link name="panda_rightfinger" />
+      <joint name="panda_finger_joint1" />
+      <passive_joint name="panda_finger_joint2" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!--GROUP STATES: 目的：为特定组定义命名状态（基于关节值），可用于定义如"收起手臂"等状态-->
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!--END EFFECTOR: 目的：表示末端执行器的相关信息-->
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <!--DISABLE COLLISIONS: 默认情况下假定机器人的任何连杆都可能与其他连杆发生碰撞。此标签用于禁用指定连杆对之间的碰撞检查-->
+    <disable_collisions link1="panda_hand" link2="panda_leftfinger" reason="Adjacent" />
+    <disable_collisions link1="panda_hand" link2="panda_rightfinger" reason="Adjacent" />
+    <disable_collisions link1="panda_leftfinger" link2="panda_rightfinger" reason="Default" />
+  </xacro:macro>
+</robot>

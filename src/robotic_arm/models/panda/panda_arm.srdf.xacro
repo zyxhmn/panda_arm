@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<!--本文件并非URDF的替代品，也不是URDF的扩展
+    这是一种用于描述机器人结构语义信息的格式
+    该机器人必须同时存在URDF文件，其中定义了所引用的关节和连杆
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <!-- 包含panda机械臂的xacro宏定义文件 -->
+  <xacro:include filename="panda_arm.xacro" />
+  <!-- 实例化panda机械臂 -->
+  <xacro:panda_arm />
+</robot>

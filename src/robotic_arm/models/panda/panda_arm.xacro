@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <xacro:macro name="panda_arm">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--GROUPS: 表示一组关节和连杆的集合，可用于指定规划自由度、定义机械臂和末端执行器等-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--LINKS: 当指定连杆时，其父关节（如存在）会自动包含在内-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--JOINTS: 当指定关节时，其子连杆（必定存在）会自动包含在内-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--CHAINS: 指定运动链时，链上所有连杆（含端点）都会包含在组中，同时所有作为已包含连杆父关节的关节也会被包含，即链上关节和基础连杆的父关节都会加入组中-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <!--SUBGROUPS: 可通过引用已定义的组名来形成子组-->
+    <group name="panda_arm">
+      <chain base_link="panda_link0" tip_link="panda_link8" />
+    </group>
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!--GROUP STATES: 目的：为特定组定义命名状态（基于关节值），可用于定义如"收起手臂"等状态-->
+    <group_state name="ready" group="panda_arm">
+      <joint name="panda_joint1" value="0" />
+      <joint name="panda_joint2" value="-0.785" />
+      <joint name="panda_joint3" value="0" />
+      <joint name="panda_joint4" value="-2.356" />
+      <joint name="panda_joint5" value="0" />
+      <joint name="panda_joint6" value="1.571" />
+      <joint name="panda_joint7" value="0.785" />
+    </group_state>
+    
+    <group_state name="extended" group="panda_arm">
+      <joint name="panda_joint1" value="0" />
+      <joint name="panda_joint2" value="0" />
+      <joint name="panda_joint3" value="0" />
+      <joint name="panda_joint4" value="0" />
+      <joint name="panda_joint5" value="0" />
+      <joint name="panda_joint6" value="1.571" />
+      <joint name="panda_joint7" value="0.785" />
+    </group_state>
+    
+    <group_state name="transport" group="panda_arm">
+      <joint name="panda_joint1" value="0" />
+      <joint name="panda_joint2" value="-0.5599" />
+      <joint name="panda_joint3" value="0" />
+      <joint name="panda_joint4" value="-2.97" />
+      <joint name="panda_joint5" value="0" />
+      <joint name="panda_joint6" value="0" />
+      <joint name="panda_joint7" value="0.785" />
+    </group_state>
+
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!--END EFFECTOR: 目的：表示末端执行器的相关信息-->
+    
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <!--VIRTUAL JOINT: 目的：定义机器人连杆与外部参考系之间的虚拟关节（相对于机器人固定）-->
+    <virtual_joint name="virtual_joint" type="floating" parent_frame="world" child_link="panda_link0" />
+
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <!--DISABLE COLLISIONS: 默认假设机器人任何连杆都可能相互碰撞，此标签用于禁用指定连杆对之间的碰撞检测-->
+    <disable_collisions link1="panda_link0" link2="panda_link1" reason="Adjacent" />
+    <disable_collisions link1="panda_link0" link2="panda_link2" reason="Never" />
+    <disable_collisions link1="panda_link0" link2="panda_link3" reason="Never" />
+    <disable_collisions link1="panda_link0" link2="panda_link4" reason="Never" />
+    <disable_collisions link1="panda_link1" link2="panda_link2" reason="Adjacent" />
+    <disable_collisions link1="panda_link1" link2="panda_link3" reason="Never" />
+    <disable_collisions link1="panda_link1" link2="panda_link4" reason="Never" />
+    <disable_collisions link1="panda_link2" link2="panda_link3" reason="Adjacent" />
+    <disable_collisions link1="panda_link2" link2="panda_link4" reason="Never" />
+    <disable_collisions link1="panda_link2" link2="panda_link6" reason="Never" />
+    <disable_collisions link1="panda_link3" link2="panda_link4" reason="Adjacent" />
+    <disable_collisions link1="panda_link3" link2="panda_link5" reason="Never" />
+    <disable_collisions link1="panda_link3" link2="panda_link6" reason="Never" />
+    <disable_collisions link1="panda_link3" link2="panda_link7" reason="Never" />
+    <disable_collisions link1="panda_link4" link2="panda_link5" reason="Adjacent" />
+    <disable_collisions link1="panda_link4" link2="panda_link6" reason="Never" />
+    <disable_collisions link1="panda_link4" link2="panda_link7" reason="Never" />
+    <disable_collisions link1="panda_link5" link2="panda_link6" reason="Adjacent" />
+    <disable_collisions link1="panda_link6" link2="panda_link7" reason="Adjacent" />
+  </xacro:macro>
+</robot>
