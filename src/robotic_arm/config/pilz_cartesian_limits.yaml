@@ -1,7 +1,0 @@
-# Cartesian limits for the Pilz planner
-# Pilz 规划器的笛卡尔限位
-cartesian_limits:
-  max_trans_vel: 1.0
-  max_trans_acc: 2.25
-  max_trans_dec: -5.0
-  max_rot_vel: 1.57
